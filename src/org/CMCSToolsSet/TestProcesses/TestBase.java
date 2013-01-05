@@ -6,7 +6,7 @@ public abstract class TestBase {
 		//do something
 	}
 	
-	public void testGo(){
+	public final void testGo(){
 		this.process();
 	}
 	
