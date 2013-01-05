@@ -1,49 +1,26 @@
 package org.CMCSToolsSet.TestProcesses;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.CMCSToolsSet.Configure.SolidConfigure;
 import org.CMCSToolsSet.OrdersConstructors.OrderBase;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class TestConfirm extends TestBase {
-
+	
 	public void process() {
 
 		String orderStr = this.OrderStr("127.0.0.1", 6379, SolidConfigure.NONE, 0, "Confirm",
 				null);
-		@SuppressWarnings("rawtypes")
-		Class clazz = null;
-		try {
-			clazz = Class.forName("org.CMCSToolsSet.OrdersConstructors.Confirm");
-			@SuppressWarnings("unchecked")
-			OrderBase orderBase = (OrderBase) clazz.getConstructor(String.class).newInstance(orderStr);
-			System.err.println(orderBase.getHost());
-			System.err.println(orderBase.getContent());
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		TestUnit(super.getInstance("Confirm", orderStr));
 
 	}
+	
+	public void TestUnit(OrderBase orderBase){
+		//test here!
+		System.err.println(orderBase.getHost());
+		System.err.println(orderBase.getCategory());
+		System.err.println(orderBase.getContent());
+	}
+	
 
 	public String[] BakUpFiller(String[] contents) {
 		int contenlength ;
@@ -80,12 +57,7 @@ public class TestConfirm extends TestBase {
 				+ SolidConfigure.PaxosOrderSplitor + bakups[6]
 				+ SolidConfigure.PaxosOrderSplitor + bakups[7]
 				+ SolidConfigure.PaxosOrderSplitor + bakups[8]
-				+ SolidConfigure.PaxosOrderSplitor + "{ther is nothing}";
+				+ SolidConfigure.PaxosOrderSplitor + "{ther is\r\r\n\n nothing}";
 		return order;
 	}
-
-	public TestConfirm() {
-		super();
-	}
-
 }
