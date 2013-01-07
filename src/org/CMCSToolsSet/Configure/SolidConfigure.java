@@ -11,6 +11,8 @@ public class SolidConfigure {
 	public final static String OrderHead = "PAXOS_BABY";
 
 	public final static String OdrPkgPrefix = "org.CMCSToolsSet.OrdersConstructors.";
+	
+	public final static int CategoryPosition = 5;
 
 	/**
 	 * TODO watcher对PaxosNodes的心跳包handler还没有
