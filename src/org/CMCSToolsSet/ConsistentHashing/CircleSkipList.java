@@ -13,12 +13,17 @@ import java.util.ListIterator;
  *
  * @param <HashNode>
  */
-public class CircleSkipList<HashNode> implements List<HashNode> {
+@SuppressWarnings("hiding")
+public class CircleSkipList<E extends HashNode<E>> implements List<HashNode<E>> {
 	
 	/**
 	 * Consistent Hashing的环状空间,单元是HashNode
 	 */
-	private LinkedList<HashNode> CircleSpace = new LinkedList<HashNode>();
+	private LinkedList<HashNode<E>> CircleSpace = new LinkedList<HashNode<E>>();
+	
+	public static <HashNode, T> CircleSkipList<?>  getInstance(Class<T> clazz){
+		return null;
+	}
 	
 	private CircleSkipList(int size){
 		
@@ -43,7 +48,7 @@ public class CircleSkipList<HashNode> implements List<HashNode> {
 	}
 
 	@Override
-	public Iterator<HashNode> iterator() {
+	public Iterator<HashNode<E>> iterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -60,11 +65,6 @@ public class CircleSkipList<HashNode> implements List<HashNode> {
 		return null;
 	}
 
-	@Override
-	public boolean add(HashNode e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean remove(Object o) {
@@ -74,18 +74,6 @@ public class CircleSkipList<HashNode> implements List<HashNode> {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends HashNode> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addAll(int index, Collection<? extends HashNode> c) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -109,25 +97,14 @@ public class CircleSkipList<HashNode> implements List<HashNode> {
 	}
 
 	@Override
-	public HashNode get(int index) {
+	public HashNode<E> get(int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public HashNode set(int index, HashNode element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public void add(int index, HashNode element) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public HashNode remove(int index) {
+	public HashNode<E> remove(int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -145,21 +122,51 @@ public class CircleSkipList<HashNode> implements List<HashNode> {
 	}
 
 	@Override
-	public ListIterator<HashNode> listIterator() {
+	public ListIterator<HashNode<E>> listIterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ListIterator<HashNode> listIterator(int index) {
+	public ListIterator<HashNode<E>> listIterator(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<HashNode<E>> subList(int fromIndex, int toIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<HashNode> subList(int fromIndex, int toIndex) {
+	public boolean add(HashNode<E> e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends HashNode<E>> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addAll(int index, Collection<? extends HashNode<E>> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public HashNode<E> set(int index, HashNode<E> element) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void add(int index, HashNode<E> element) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
