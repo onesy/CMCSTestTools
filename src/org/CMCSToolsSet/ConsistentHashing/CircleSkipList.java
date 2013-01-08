@@ -1,5 +1,6 @@
 package org.CMCSToolsSet.ConsistentHashing;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,12 +22,25 @@ public class CircleSkipList<E extends HashNode<E>> implements List<HashNode<E>> 
 	 */
 	private LinkedList<HashNode<E>> CircleSpace = new LinkedList<HashNode<E>>();
 	
-	public static <HashNode, T> CircleSkipList<?>  getInstance(Class<T> clazz){
-		return null;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static <HashNode, T> CircleSkipList<?>  getInstance(Class<T> clazz, long[] Hashes,T[] Values){
+		return new CircleSkipList(Hashes, Values);
 	}
 	
-	private CircleSkipList(int size){
-		
+	private <T> CircleSkipList(long[] Hashes, T[] values){
+		ArrayList<SerialNoValueBean<T>> tmpArray = new ArrayList<SerialNoValueBean<T>>();
+		ArrayList<SerialNoValueBean<T>> tmp2Array = new ArrayList<SerialNoValueBean<T>>();
+		for(int i = 0; i < Hashes.length; i ++){
+			tmpArray.add(new SerialNoValueBean<T>(Hashes[i],values[i]));
+		}
+		for(int i = 0 ; i < tmp2Array.size() ; i ++){
+			SerialNoValueBean<T> bigOne = tmpArray.get(0);
+			for(int j = 0; j < tmpArray.size(); j ++){
+				if(tmpArray.get(j).Hash < tmpArray.get(j + 1).Hash){
+					bigOne = tmpArray.get(j + 1);khbjhgjyhv
+				}
+			}
+		}
 	}
 
 	@Override
