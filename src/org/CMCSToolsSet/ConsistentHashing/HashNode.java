@@ -1,33 +1,41 @@
 package org.CMCSToolsSet.ConsistentHashing;
 
-public class HashNode <T> {
+public class HashNode {
 	
 	/**
 	 * next 4th node
 	 */
-	public HashNode<T> Next4thNode = null;
+	public HashNode Next4thNode = null;
 	/**
 	 * next 3rd node
 	 */
-	public HashNode<T> Next3rdNode = null;
+	public HashNode Next3rdNode = null;
 	/**
 	 * next 2nd node
 	 */
-	public HashNode<T> Next2ndNode = null;
+	public HashNode Next2ndNode = null;
 	/**
 	 * next node
 	 */
-	public HashNode<T> Next = null;
+	public HashNode Next = null;
 	/**
 	 * pre_node,cause the delete operation need it 
 	 * 
 	 */
-	public HashNode<T> pre_node = null;
+	public HashNode pre_node = null;
 	/**
 	 * is this node the start node?
 	 */
 	public boolean isStartNode = false;
 	
-	public T Contained = null;
+	public long hashNumber = 0;
+	
+	public String Contained = null;
+	
+	public HashNode(long hashNumber, String Contained, boolean isStart){
+		this.hashNumber = hashNumber;
+		this.Contained = Contained;
+		this.isStartNode = isStart;
+	}
 
 }
