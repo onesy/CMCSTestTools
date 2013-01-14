@@ -1,23 +1,13 @@
 package org.CMCSToolsSet.ConsistentHashing;
 
+import sun.security.util.BigInt;
+
 public class HashNode {
-	
-	/**
-	 * next 4th node
-	 */
-	public HashNode Next4thNode = null;
-	/**
-	 * next 3rd node
-	 */
-	public HashNode Next3rdNode = null;
-	/**
-	 * next 2nd node
-	 */
-	public HashNode Next2ndNode = null;
+
 	/**
 	 * next node
 	 */
-	public HashNode Next = null;
+	public HashNode Next_node = null;
 	/**
 	 * pre_node,cause the delete operation need it 
 	 * 
@@ -28,11 +18,11 @@ public class HashNode {
 	 */
 	public boolean isStartNode = false;
 	
-	public long hashNumber = 0;
+	public BigInt hashNumber = null;
 	
 	public String Contained = null;
 	
-	public HashNode(long hashNumber, String Contained, boolean isStart){
+	public HashNode(BigInt hashNumber, String Contained, boolean isStart){
 		this.hashNumber = hashNumber;
 		this.Contained = Contained;
 		this.isStartNode = isStart;
