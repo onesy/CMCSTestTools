@@ -9,11 +9,6 @@ public class HashNode {
 	 */
 	public HashNode Next_node = null;
 	/**
-	 * pre_node,cause the delete operation need it 
-	 * 
-	 */
-	public HashNode pre_node = null;
-	/**
 	 * is this node the start node?
 	 */
 	public boolean isStartNode = false;
