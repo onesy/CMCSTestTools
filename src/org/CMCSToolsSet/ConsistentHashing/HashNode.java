@@ -12,7 +12,9 @@ public class HashNode {
 	 * is this node the start node?
 	 */
 	public boolean isStartNode = false;
-	
+	/**
+	 * hashNumber 
+	 */
 	public BigInt hashNumber = null;
 	
 	public String Contained = null;
