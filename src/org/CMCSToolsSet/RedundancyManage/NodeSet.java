@@ -14,7 +14,28 @@ public class NodeSet {
 	private static NodeSet NodeSetOfCluster = null;
 
 	public static void InitialNodeSt() {
+		/**
+		 * 初始化OrganizeInfoTable(必须)
+		 */
+		
+		/**
+		 * 
+		 * 读取配置文件，寻找依赖关系 1.找到那些是同组的
+		 * 
+		 */
 
+	}
+
+	/**
+	 * nodeInfo.getMagicStr() + nodeInfo.getPort() + nodeInfo.getChannel() +
+	 * nodeInfo.getDB() 剔除 host 相关
+	 * 
+	 * @param nodeInfo
+	 * @return
+	 */
+	public static String getSignStr4MD5(NodeInfo nodeInfo) {
+		return nodeInfo.getMagicStr() + nodeInfo.getPort()
+				+ nodeInfo.getChannel() + nodeInfo.getDB();
 	}
 
 	public synchronized static NodeSet getInstance() {
@@ -32,6 +53,7 @@ public class NodeSet {
 
 	/**
 	 * the nodes who have same host+port+Channel+DB will recover each other.
+	 * 包装private setNode()
 	 * 
 	 * @param nodeInfo
 	 */
@@ -39,33 +61,65 @@ public class NodeSet {
 		// 首先，计算MD5，找到指定的那个“组”
 		// Host+port+Channel+Db
 		setNode(nodeInfo.getHost(), nodeInfo.getPort(), nodeInfo.getChannel(),
-				nodeInfo.getDB(), nodeInfo.getRedundancyNumber(), 0);
+				nodeInfo.getDB(), nodeInfo.getRedundancyNumber(),
+				nodeInfo.getMagicStr(), 0);
 
 	}
 
+	/**
+	 * 包装private setNode()
+	 * 
+	 * @param nodeInfo
+	 */
 	public static void delNode(NodeInfo nodeInfo) {
-		setNode(null, 0, null, 0, nodeInfo.getRedundancyNumber(), 0);
+		setNode(null, 0, null, 0, nodeInfo.getRedundancyNumber(),
+				nodeInfo.getMagicStr(), 0);
 	}
 
+	/**
+	 * 包装private setNode()
+	 * 
+	 * @param nodeInfo
+	 */
 	public static void setNode(NodeInfo nodeInfo) {
 		setNode(nodeInfo.getHost(), nodeInfo.getPort(), nodeInfo.getChannel(),
-				nodeInfo.getDB(), nodeInfo.getRedundancyNumber(), 0);
+				nodeInfo.getDB(), nodeInfo.getRedundancyNumber(),
+				nodeInfo.getMagicStr(), 0);
+	}
+
+	/**
+	 * 如果节点已经废掉或者无法通过检查，将会返回空
+	 * 
+	 * @param host
+	 * @param port
+	 * @param Channel
+	 * @param Db
+	 * @param RedundancyNumber
+	 * @return NodeInfo or null
+	 */
+	public static NodeInfo getNode(String host, int port, String Channel,
+			int Db, int RedundancyNumber, String magic) {
+		BigInt MD5FLocation = calculateMD5(magic, port, Channel, Db,
+				RedundancyNumber);
+		NodeInfo newni = NodeSet.SliceOfNodes.get(MD5FLocation).get(
+				RedundancyNumber);
+		if (checkNode(newni)) {
+			return newni;
+		}
+		return null;
 	}
 	
-	public static NodeInfo getNode(String host, int port, String Channel, int Db,
-			int RedundancyNumber){
-		BigInt MD5FLocation = calculateMD5(host, port, Channel, Db,
-				RedundancyNumber);
-		return NodeSet.SliceOfNodes.get(MD5FLocation).get(RedundancyNumber);
+	public static ArrayList<NodeInfo> getOrganize(String magicStr){
+		return null;
 	}
 
 	private static void setNode(String host, int port, String Channel, int Db,
-			int RedundancyNumber, int VirtualNodeCount) {
-		BigInt MD5FLocation = calculateMD5(host, port, Channel, Db,
+			int RedundancyNumber, String magic, int VirtualNodeCount) {
+		BigInt MD5FLocation = calculateMD5(magic, port, Channel, Db,
 				RedundancyNumber);
 		ArrayList<NodeInfo> NIarr = NodeSet.SliceOfNodes.get(MD5FLocation);
 		NodeInfo newNi = new NodeInfo(host, port, Channel, Db,
-				RedundancyNumber, VirtualNodeCount);
+				RedundancyNumber, magic, VirtualNodeCount);
 		try {
 			NIarr.set(RedundancyNumber, newNi);
 		} catch (IndexOutOfBoundsException e) {
@@ -83,15 +137,16 @@ public class NodeSet {
 	public static boolean checkNode(NodeInfo nodeInfo) {
 		if (nodeInfo.getHost() != null && nodeInfo.getPort() != 0
 				&& nodeInfo.getChannel() != null && nodeInfo.getDB() != 0
-				&& NodeInfo.VirtualNodeCount != 0)
+				&& NodeInfo.VirtualNodeCount != 0
+				&& nodeInfo.getMagicStr() != null)
 			return true;
 
 		return false;
 	}
 
-	public static BigInt calculateMD5(String host, int port, String Channel,
+	public static BigInt calculateMD5(String magic, int port, String Channel,
 			int Db, int RedundancyNumber) {
-		String SRCStr = host + port + Channel + Db;
+		String SRCStr = magic + port + Channel + Db;
 		MessageDigest md5 = null;
 		try {
 			md5 = MessageDigest.getInstance("MD5");
@@ -106,8 +161,7 @@ public class NodeSet {
 	}
 
 	public static BigInt calculateMD5(NodeInfo nodeInfo) {
-		String SRCStr = nodeInfo.getHost() + nodeInfo.getPort()
-				+ nodeInfo.getChannel() + nodeInfo.getDB();
+		String SRCStr = getSignStr4MD5(nodeInfo);
 		MessageDigest md5 = null;
 		try {
 			md5 = MessageDigest.getInstance("MD5");

@@ -14,7 +14,9 @@ public class NodeInfo {
 	
 	private int redundancyNumber = 0;
 	
-	public NodeInfo(String host, int port, String Channel, int DB, int redundancyNumber, int VirtualNodeCount){
+	private String magicStr = null;
+	
+	public NodeInfo(String host, int port, String Channel, int DB, int redundancyNumber, String magicStr, int VirtualNodeCount){
 		
 		this.setHost(host);
 		
@@ -25,6 +27,8 @@ public class NodeInfo {
 		this.setDB(DB);
 		
 		this.setRedundancyNumber(redundancyNumber);
+		
+		this.setMagicStr(magicStr);
 		
 		if(VirtualNodeCount != 0)
 			NodeInfo.VirtualNodeCount = VirtualNodeCount;
@@ -69,6 +73,14 @@ public class NodeInfo {
 
 	public void setRedundancyNumber(int redundancyNumber) {
 		this.redundancyNumber = redundancyNumber;
+	}
+
+	public String getMagicStr() {
+		return magicStr;
+	}
+
+	public void setMagicStr(String magicStr) {
+		this.magicStr = magicStr;
 	}
 
 }
