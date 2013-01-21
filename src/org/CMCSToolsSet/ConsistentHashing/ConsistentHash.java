@@ -128,6 +128,15 @@ public class ConsistentHash {
 		return null;
 	}
 	
+	/**
+	 * 寻找冗余节点
+	 * @param host
+	 * @param port
+	 * @param Channel
+	 * @param DB
+	 * @param redundancyNumber
+	 * @return
+	 */
 	public static HashNode FindBrothers(String host, int port, String Channel, int DB, int redundancyNumber){
 		
 		/**
@@ -143,11 +152,36 @@ public class ConsistentHash {
 		 * 那么这个问题进而分裂成2个问题，所以需要有两个方法一个用于找到冗余节点，一个用于找打Virtual节点
 		 * 但是找到冗余节点是找打它的虚拟节点还是真实节点？仍然是个很头疼的问题,对于这个问题，我的解法是，随机去找，找到虚拟节点的随机一个进行操作
 		 */
+		/**
+		 * 初始化需要解决：
+		 * 从另外一个配置文件中读取冗余依赖,遍历所有节点，将其组成“组”，依次编号0～N
+		 * 取出其中所有的编号为0的节点，组成数组，组成一致性hash
+		 * 解决办法：
+		 * 首先找到节点组
+		 * 寻找冗余节点，在冗余节点中0号为主节点，根据配置1～N号为冗余节点算法为
+		 * MD5(Host+port+Channel+Db+redundancyNumber)
+		 * 主节点管理冗余节点，在冗余节点们中形成一致性hash
+		 * 管理节点挂掉的备用办法：每个都可以接受分发请求，如果0号找不到，就去寻找1号依次类推
+		 */
 		return null;
 		
 	}
-	
-	public static HashNode FindVirtuals(){
+	/**
+	 * 寻找一个随机的虚拟节点
+	 * @param host
+	 * @param port
+	 * @param Channel
+	 * @param DB
+	 * @param redundancyCount
+	 * @return
+	 */
+	public static HashNode FindVirtuals(String host, int port, String Channel, int DB,int redundancyCount){
+		/**
+		 * 初始化需要解决：
+		 * 初始化必须将每个节点的虚拟节点的count
+		 * 解决办法：
+		 * 首先寻找到节点组，通过随机节点号找到指定的节点
+		 */
 		return null;
 	}
 	
