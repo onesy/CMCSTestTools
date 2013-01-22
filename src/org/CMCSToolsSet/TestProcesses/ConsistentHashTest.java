@@ -3,6 +3,7 @@ package org.CMCSToolsSet.TestProcesses;
 import java.util.ArrayList;
 
 import org.CMCSToolsSet.testAl.CircleHashSpace;
+import org.CMCSToolsSet.testAl.NodeInfo;
 
 public class ConsistentHashTest {
 
@@ -20,6 +21,14 @@ public class ConsistentHashTest {
 		String[] magic2s = new String[] { "776", "676", "453", "908", "111" };
 
 		int userMagic = 7000;
+		/**
+		 * 二维
+		 */
+		ArrayList<ArrayList<NodeInfo>> values = new ArrayList<ArrayList<NodeInfo>>();
+		
+		ArrayList<NodeInfo> No1 = new ArrayList<NodeInfo>();
+		No1.add(new NodeInfo(0, "123", 2, "127.0.0.1", 1023, "dior", 0));
+		No1.add(new NodeInfo(1, "123", 2, "127.0.0.1", 1023, "dior", 0));
 
 		/**
 		 * test case end
