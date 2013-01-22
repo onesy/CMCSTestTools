@@ -3,6 +3,7 @@ package org.CMCSToolsSet.testAl;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+
 public class CircleHashSpace {
 
 	private static CircleHashSpace circleHashSpace = null;
@@ -28,41 +29,130 @@ public class CircleHashSpace {
 		if (CircleHashSpace.circleHashSpace == null
 				|| CircleHashSpace.circleHashSpace
 						.equals(new CircleHashSpace()))
-			CircleHashSpace.circleHashSpace = new CircleHashSpace(Sort(magicArray));
+			CircleHashSpace.circleHashSpace = new CircleHashSpace(magicArray);
 		return CircleHashSpace.circleHashSpace;
+	}
+	
+	private static void checkInitial(){
+		if(MagicArray == null){
+			MagicArray = new ArrayList<String>();
+		}
 	}
 
 	public static ArrayList<String> getMagicArray() {
+		checkInitial();
 		return MagicArray;
 	}
 
 	public static void setMagicArray(ArrayList<String> magicArray) {
-		MagicArray = magicArray;
+		MagicArray = Sort(magicArray);
+	}
+	
+	public static void setMagicArray(String[] magicArray) {
+		MagicArray = Sort(magicArray);
 	}
 
 	/**
 	 * 随便写个冒泡吧，别整复杂了，时间不多，时间以后再来整,反正节点也不多。。。对吧？
-	 * 
+	 * 添加传入的数组，并且排序
 	 * @param magicArray
+	 * @return 
 	 * @return
 	 */
 	private static ArrayList<String> Sort(ArrayList<String> magicArray){
-		ArrayList<String> tmpArray = new ArrayList<String>();
-		for(int i = 0; i < magicArray.size(); i ++ ){
-			String biggest = null;
-			for(int j = 0; j < magicArray.size(); j ++){
-				if(biggest == null||new BigInteger(biggest).compareTo(new BigInteger(magicArray.get(j))) < 1){
-					biggest = magicArray.get(j);
-				}
-			}
-			tmpArray.add(i, biggest);
+		for (String magic : magicArray) {
+			add(magic);
 		}
-		
-		return tmpArray;
-		
+		return MagicArray;
+	}
+	
+	private static ArrayList<String> Sort(String[] magicArray){
+		for (String magic : magicArray) {
+			add(magic);
+		}
+		return MagicArray;
 	}
 	
 	public static void add(String magic){
-		未完成
+		checkInitial();
+		if(MagicArray.size() == 0){
+			new BigInteger(magic);
+			MagicArray.add(0, magic);
+			return ;
+		}
+		for(int i = 0; i < MagicArray.size(); i ++){
+			if(new BigInteger(magic).compareTo(new BigInteger(MagicArray.get(i))) < 0){
+				MagicArray.add(i, magic);
+				return ;
+			}
+		}
+		MagicArray.add(magic);
+	}
+	
+	/**
+	 * @overload
+	 * @param magic
+	 */
+	public static void add(int magic){
+		add(magic + "");
+	}
+	
+	public static void add(BigInteger magic){
+		add(magic.toString());
+	}
+	
+	public static void add(Integer magic){
+		add(magic.toString());
+	}
+	
+	public static boolean del(String magic){
+		checkInitial();
+		return MagicArray.remove(magic);
+	}
+	
+	public static boolean del(Integer magic){
+		return del(magic.toString());
+	}
+	
+	public static boolean del(BigInteger magic){
+		return del(magic.toString());
+	}
+	
+	public static boolean del(int magic){
+		return del(magic + "");
+	}
+	
+	/**
+	 * 需要更改为的magic必须不存在
+	 * 这个函数不会容忍存在相同的magic key
+	 * @param srcMagic
+	 * @param targetMagic
+	 * @return
+	 */
+	public static boolean modify(String srcMagic,String targetMagic) {
+		checkInitial();
+		if( !MagicArray.contains(targetMagic) && MagicArray.remove(srcMagic) ) {
+			add(targetMagic);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public static <T> ArrayList<Boolean>  modify(ArrayList<T> srcMagics,ArrayList<T> targetMagics){
+		ArrayList<Boolean> result = new ArrayList<Boolean>(); 
+		for(int i = 0; i < srcMagics.size(); i ++){
+			result.add(i, modify(srcMagics.get(i).toString(), targetMagics.get(i).toString()));
+		}
+		return result;
+		
+	}
+	
+	public static <T> String Search4Magic(T userMagic){
+		for(int i = 0; i < MagicArray.size(); i ++){
+			if(new BigInteger(userMagic.toString()).compareTo(new BigInteger(MagicArray.get(i))) <= 0 ){
+				return MagicArray.get(i);
+			}
+		}
+		return MagicArray.get(0);
 	}
 }

@@ -21,6 +21,18 @@ public class OrganizationNodesTable {
 			OrganizationNodesTableI = new OrganizationNodesTable();
 		return OrganizationNodesTableI;
 	}
+	
+	/**
+	 * test method
+	 * @return
+	 */
+	public synchronized static <T> OrganizationNodesTable getInstance(T [] magics, ArrayList<ArrayList<NodeInfo>> values){
+		OrganizationNodesTable.getInstance();
+		for(int i = 0; i < magics.length; i ++){
+			OrganizationNodesTable.getMagicToNodeInfo_Table().put(magics[i].toString(), values.get(i));
+		}
+		return OrganizationNodesTable.getInstance();
+	}
 
 	public static ConcurrentHashMap<String, ArrayList<NodeInfo>> getMagicToNodeInfo_Table() {
 		if(MagicToNodeInfo_Table == null)
