@@ -30,6 +30,12 @@ public class OrganizationNodesTable {
 		OrganizationNodesTable.getInstance();
 		for(int i = 0; i < magics.length; i ++){
 			OrganizationNodesTable.getMagicToNodeInfo_Table().put(magics[i].toString(), values.get(i));
+			for(ArrayList<NodeInfo> value : values){
+				if(magics[i].toString().equals(value.get(0).getMagic())){
+					OrganizationNodesTable.MagicToNodeInfo_Table.put(CircleHashSpace.calculateMD5(magics[i].toString()).abs().toString(), value);
+					break;
+				}
+			}
 		}
 		return OrganizationNodesTable.getInstance();
 	}

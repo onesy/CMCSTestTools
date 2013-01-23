@@ -1,8 +1,9 @@
 package org.CMCSToolsSet.testAl;
 
 import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-
 
 public class CircleHashSpace {
 
@@ -53,7 +54,7 @@ public class CircleHashSpace {
 	}
 
 	/**
-	 * 随便写个冒泡吧，别整复杂了，时间不多，时间以后再来整,反正节点也不多。。。对吧？
+	 * 随便写个插入吧，别整复杂了，时间不多，时间以后再来整,反正节点也不多。。。对吧？
 	 * 添加传入的数组，并且排序
 	 * @param magicArray
 	 * @return 
@@ -76,17 +77,17 @@ public class CircleHashSpace {
 	public static void add(String magic){
 		checkInitial();
 		if(MagicArray.size() == 0){
-			new BigInteger(magic);
-			MagicArray.add(0, magic);
+			new BigInteger(calculateMD5(magic).abs().toString());
+			MagicArray.add(0, calculateMD5(magic).abs().toString());
 			return ;
 		}
 		for(int i = 0; i < MagicArray.size(); i ++){
-			if(new BigInteger(magic).compareTo(new BigInteger(MagicArray.get(i))) < 0){
-				MagicArray.add(i, magic);
+			if(new BigInteger(calculateMD5(magic).abs().toString()).compareTo(new BigInteger(MagicArray.get(i))) < 0){
+				MagicArray.add(i, calculateMD5(magic).abs().toString());
 				return ;
 			}
 		}
-		MagicArray.add(magic);
+		MagicArray.add(calculateMD5(magic).abs().toString());
 	}
 	
 	/**
@@ -149,10 +150,28 @@ public class CircleHashSpace {
 	
 	public static <T> String Search4Magic(T userMagic){
 		for(int i = 0; i < MagicArray.size(); i ++){
-			if(new BigInteger(userMagic.toString()).compareTo(new BigInteger(MagicArray.get(i))) <= 0 ){
+			if(new BigInteger(calculateMD5(userMagic.toString()).toString()).abs().compareTo(new BigInteger(MagicArray.get(i)).abs()) <= 0 ){
 				return MagicArray.get(i);
 			}
 		}
 		return MagicArray.get(0);
+	}
+	public static BigInteger calculateMD5(String magic) {
+		String SRCStr = magic;
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		md5.update(SRCStr.getBytes());
+		byte[] result = md5.digest();
+		BigInteger bd = new BigInteger(result);
+		return bd;
+	}
+	
+	public static String getMD5Abs(String magic){
+		return calculateMD5(magic).abs().toString();
 	}
 }
